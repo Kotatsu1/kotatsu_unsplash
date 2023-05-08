@@ -17,7 +17,7 @@ def get_names_from_cloudinary():
     return names_list
 
 
-def get_full_json():
+def get_all_images():
     return cloudinary.Search().execute()
 
     
