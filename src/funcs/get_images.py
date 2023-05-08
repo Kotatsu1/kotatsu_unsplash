@@ -7,16 +7,14 @@ import cloudinary.api
 config = cloudinary.config(secure=True)
 
 
+def get_all_images():
+    return cloudinary.Search().execute()
+images = get_all_images()
 
-def get_names_from_cloudinary():
-    response = cloudinary.Search().execute()
-
+def get_file_names(all_images):
+    response = all_images
     return list(map(lambda image: image['filename'], response['resources'][::]))
 
 
-def get_all_images():
-    return cloudinary.Search().execute()
-
-
 def interactive_search(query):
-    return [element for element in get_names_from_cloudinary() if element.startswith(query)]
+    return list(filter(lambda name: name.startswith(query), get_file_names(images)))
