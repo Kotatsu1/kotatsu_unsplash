@@ -1,13 +1,10 @@
 from fastapi import APIRouter
-from funcs.get_images import interactive_search, get_all_images
+from funcs.get_images import interactive_search
 from schemas.search_schemas import Search
 
-router = APIRouter(prefix='/api', tags=['search'])
+router = APIRouter(prefix='/api/images', tags=['search'])
 
-@router.post("/interactive")
+@router.post("/search")
 def search(q: Search):
     return {'search': interactive_search(q.query)}
 
-@router.get('/images')
-def all_images():
-    return get_all_images()
