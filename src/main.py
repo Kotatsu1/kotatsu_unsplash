@@ -1,14 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from endpoints import search
 import uvicorn
 
 app = FastAPI()
 
-
-
-@app.get('/')
-def root():
-    return 'Hello world!'
+app.include_router(search.router)
 
 app.add_middleware(
     CORSMiddleware,
