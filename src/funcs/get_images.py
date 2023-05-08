@@ -17,6 +17,9 @@ def get_names_from_cloudinary():
     return names_list
 
 
+def get_full_json():
+    return cloudinary.Search().execute()
+
     
 def interactive_search(query):
     return [element for element in get_names_from_cloudinary() if query in element]
