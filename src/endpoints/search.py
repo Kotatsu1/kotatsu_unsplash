@@ -8,6 +8,6 @@ router = APIRouter()
 def search(q: Search):
     return {'search': interactive_search(q.query)}
 
-@router.post('/full_json')
+@router.get('/full_json')
 def full_json():
     return get_full_json()
