@@ -3,6 +3,7 @@ load_dotenv()
 
 import cloudinary
 import cloudinary.api
+import cloudinary.uploader
 
 config = cloudinary.config(secure=True)
 
@@ -18,3 +19,11 @@ def get_file_names(all_images):
 
 def interactive_search(query):
     return list(filter(lambda name: name.startswith(query), get_file_names(images)))
+
+
+def upload_images(title, url):
+    cloudinary.uploader.upload(url, 
+  public_id = title,
+  overwrite = True,
+  folder = 'gallery'
+  ) 
