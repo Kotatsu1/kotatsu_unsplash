@@ -9,7 +9,7 @@ config = cloudinary.config(secure=True)
 
 
 def get_all_images():
-    return cloudinary.Search().expression("folder:gallery").execute()
+    return cloudinary.Search().execute()
 images = get_all_images()
 
 def get_file_names(all_images):
@@ -27,3 +27,13 @@ def upload_images(title, url):
     overwrite = True,
     folder = 'gallery'
     )
+
+
+def get_images_from_exact_folder(folder_name):
+    return cloudinary.Search().expression(f"folder:{folder_name}").execute()
+
+
+def get_all_folders():
+    response = cloudinary.Search().execute()
+    not_filtered_folders = list(map(lambda image: image['folder'], response['resources'][::]))
+    return list(set(not_filtered_folders))

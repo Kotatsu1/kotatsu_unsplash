@@ -1,7 +1,6 @@
 from schemas.image_schemas import UploadImage
-from funcs.images import get_all_images, upload_images
+from funcs.images import get_all_images, upload_images, get_images_from_exact_folder, get_all_folders
 from fastapi import APIRouter, HTTPException
-
 
 router = APIRouter(prefix='/api/images', tags=['search'])
 
@@ -19,3 +18,13 @@ def upload_image(request: UploadImage):
     except Exception:
         raise HTTPException(status_code=404, detail='Error during upload')
     return 'uploaded successfully'
+
+
+@router.get('/folder')
+def folder_images(folder_name: str):
+    return get_images_from_exact_folder(folder_name)
+
+
+@router.get('/get_folders')
+def get_folders():
+    return get_all_folders()
