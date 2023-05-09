@@ -9,7 +9,7 @@ config = cloudinary.config(secure=True)
 
 
 def get_all_images():
-    return cloudinary.Search().execute()
+    return cloudinary.Search().expression("folder:gallery").execute()
 images = get_all_images()
 
 def get_file_names(all_images):
