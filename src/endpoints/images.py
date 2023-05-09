@@ -17,5 +17,5 @@ def upload_image(request: UploadImage):
     try:
         upload_images(request.title, request.url)
     except Exception:
-        raise HTTPException(status_code=400, detail='Error during upload')
+        raise HTTPException(status_code=404, detail='Error during upload')
     return 'uploaded successfully'
