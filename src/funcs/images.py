@@ -23,7 +23,7 @@ def interactive_search(query):
 
 def upload_images(title, url):
     cloudinary.uploader.upload(url, 
-  public_id = title,
-  overwrite = True,
-  folder = 'gallery'
-  ) 
+    public_id = title,
+    overwrite = True,
+    folder = 'gallery'
+    )

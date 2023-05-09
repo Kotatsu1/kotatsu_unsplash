@@ -1,6 +1,6 @@
 from schemas.image_schemas import UploadImage
 from funcs.images import get_all_images, upload_images
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 
 
 router = APIRouter(prefix='/api/images', tags=['search'])
@@ -14,4 +14,8 @@ def all_images():
 
 @router.post('/upload')
 def upload_image(request: UploadImage):
-    return upload_images(request.title, request.url)
+    try:
+        upload_images(request.title, request.url)
+    except Exception:
+        raise HTTPException(status_code=400, detail='Error during upload')
+    return 'uploaded successfully'
