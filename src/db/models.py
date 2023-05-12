@@ -12,7 +12,7 @@ class DbUser(Base):
 class DbUserCart(Base):
     __tablename__ = 'pictures'
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
+
 
 
 
