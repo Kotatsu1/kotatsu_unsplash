@@ -2,3 +2,5 @@ fastapi
 uvicorn
 cloudinary
 python-dotenv
+sqlalchemy
+psycopg2-binary

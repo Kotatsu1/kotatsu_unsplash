@@ -15,15 +15,16 @@ def get_all_images():
 @router.post('/upload')
 def upload_image(request: UploadImage):
     try:
-        images.upload_image(request.title, request.url)
+        response = images.upload_image(request.title, request.url)
     except Exception:
         raise HTTPException(status_code=404, detail='Error during upload')
-    return 'uploaded successfully'
+    return response
 
 
 @router.get('/folder')
-def folder_images(folder_name: str):
-    return images.get_images_from_folder(folder_name)
+def folder_images(folder_name: str, next_cursor: str | None = None):
+    print(folder_name)
+    return images.get_images_from_folder(folder_name, next_cursor)
 
 
 @router.get('/get_folders')

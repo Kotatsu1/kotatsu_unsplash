@@ -21,8 +21,8 @@ def get_folders():
     return folders
 
 
-def get_images_from_folder(folder_name):
-    return cloudinary.Search().expression(f"folder:{folder_name}").execute()
+def get_images_from_folder(folder_name, next_cursor: str | None = None):
+    return cloudinary.Search().max_results("10").next_cursor(next_cursor).expression(f"folder:{folder_name}").execute()
 
 
 def interactive_search(query):
@@ -30,11 +30,7 @@ def interactive_search(query):
 
 
 def upload_image(title, url):
-    cloudinary.uploader.upload(url, 
-    public_id = title,
-    overwrite = True,
-    folder = 'gallery'
-    )
+    return cloudinary.uploader.upload(url, public_id = title,overwrite = True,folder = 'gallery')
 
 
 def get_urls(folder):
