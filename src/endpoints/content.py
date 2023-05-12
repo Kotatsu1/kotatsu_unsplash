@@ -7,7 +7,7 @@ router = APIRouter(prefix='/api/content', tags=['content'])
 
 
 @router.get('/')
-def all_images():
+def content():
     return ''
 
 
