@@ -8,7 +8,7 @@ import cloudinary.uploader
 config = cloudinary.config(secure=True)
 
 
-def get_all_images():
+def get_images_from_all_categories():
     return cloudinary.Search().execute()
 
 
@@ -16,12 +16,12 @@ def get_file_names():
     return list(map(lambda image: image['filename'], get_all_images()['resources'][::]))
 
 
-def get_folders():
+def get_all_categories():
     folders = set(list(map(lambda image: image['folder'], get_all_images()['resources'][::])))
     return folders
 
 
-def get_images_from_folder(folder_name, next_cursor: str | None = None):
+def get_images_from_category(folder_name, next_cursor: str | None = None):
     return cloudinary.Search().max_results("10").next_cursor(next_cursor).expression(f"folder:{folder_name}").execute()
 
 

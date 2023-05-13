@@ -4,7 +4,7 @@ from endpoints import images
 import uvicorn
 
 
-app = FastAPI()
+app = FastAPI(title='Unsplash API',)
 
 
 app.include_router(images.router)
