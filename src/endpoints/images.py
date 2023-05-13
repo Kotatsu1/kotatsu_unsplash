@@ -30,3 +30,9 @@ def folder_images(folder_name: str, next_cursor: str | None = None):
 @router.get('/get_folders')
 def get_folders():
     return images.get_folders()
+
+
+@router.post("/search")
+def autocomplete_search(query: str):
+    return {'search': images.autocomplete_search(query)}
+

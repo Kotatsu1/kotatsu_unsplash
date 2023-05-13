@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from endpoints import search, images
+from endpoints import images
 import uvicorn
 
 
 app = FastAPI()
 
-app.include_router(search.router)
+
 app.include_router(images.router)
 
 app.add_middleware(
