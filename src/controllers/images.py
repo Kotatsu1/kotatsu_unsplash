@@ -25,18 +25,12 @@ def get_images_from_folder(folder_name, next_cursor: str | None = None):
     return cloudinary.Search().max_results("10").next_cursor(next_cursor).expression(f"folder:{folder_name}").execute()
 
 
-def interactive_search(query):
+def autocomplete_search(query: str):
     return list(filter(lambda name: name.startswith(query), get_file_names()))
 
 
 def upload_image(title, url):
-    return cloudinary.uploader.upload(url, public_id = title,overwrite = True,folder = 'gallery')
-
-
-def get_urls(folder):
-    raw_data = cloudinary.Search().expression(f"folder:{folder}").execute()
-    urls = list(map(lambda image: image['url'], raw_data['resources'][::]))
-    return urls
+    return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
 

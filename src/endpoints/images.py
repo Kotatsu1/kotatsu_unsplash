@@ -1,5 +1,5 @@
 from schemas.image_schemas import UploadImage
-from funcs import images
+from controllers import images
 from fastapi import APIRouter, HTTPException
 
 
@@ -30,8 +30,3 @@ def folder_images(folder_name: str, next_cursor: str | None = None):
 @router.get('/get_folders')
 def get_folders():
     return images.get_folders()
-
-
-@router.get('/get_urls')
-def get_urls(folder: str):
-    return images.get_urls(folder)
