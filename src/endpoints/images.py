@@ -3,7 +3,7 @@ from controllers import images
 from fastapi import APIRouter, HTTPException
 
 
-router = APIRouter(prefix='/api/images', tags=['search'])
+router = APIRouter(prefix='/api/images', tags=['images'])
 
 
 
