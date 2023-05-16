@@ -4,8 +4,11 @@ load_dotenv()
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
+from test_db import database
+
 
 config = cloudinary.config(secure=True)
+
 
 
 def get_images_from_all_categories():
@@ -33,4 +36,13 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
+def add_favorite_image_to_db(image_url: str, user_email: str):
+    connection = database.get_connection()
+    user_email => find user => into favoriteImages add => image_url
+    query = "INSERT INTO favoriteImages (user_email, image_url) VALUES ('{}', '{}')".format(user_email, image_url)
 
+    cursor = connection.cursor()
+    cursor.execute(query)
+    connection.commit()
+    cursor.close()
+    connection.close()

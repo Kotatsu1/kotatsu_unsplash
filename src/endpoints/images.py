@@ -50,3 +50,7 @@ def image_caption(image_url: str):
         return response.json()["predictions"][0]['caption']
     except Exception as e:
         return e
+
+@router.post("/favorite")
+def favorite_image(image_url: str, user_email: str):    
+    return images.add_favorite_image_to_db(image_url, user_email)
