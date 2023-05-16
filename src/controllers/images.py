@@ -22,7 +22,7 @@ def get_all_categories():
 
 
 def get_images_from_category(folder_name, next_cursor: str | None = None):
-    return cloudinary.Search().max_results("10").next_cursor(next_cursor).expression(f"folder:{folder_name}").execute()
+    return cloudinary.Search().max_results("30").next_cursor(next_cursor).expression(f"folder:{folder_name}").execute()
 
 
 def autocomplete_search(query: str):
