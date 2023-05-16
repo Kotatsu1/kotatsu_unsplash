@@ -1,6 +1,8 @@
 from schemas.image_schemas import UploadImage
 from controllers import images
 from fastapi import APIRouter, HTTPException
+import requests
+from io import BytesIO
 
 
 router = APIRouter(prefix='/api/images', tags=['images'])
@@ -36,3 +38,12 @@ def get_all_categories():
 def autocomplete_search(query: str):
     return {'search': images.autocomplete_search(query)}
 
+
+@router.post("/caption")
+def image_caption(image_url: str):
+    url = "http://localhost:5000/model/predict"
+    response = requests.get(image_url)
+    files = {"image": ("image.jpg", BytesIO(response.content), "image/jpeg")}
+    headers = {"accept": "application/json"}
+    response = requests.post(url, headers=headers, files=files)
+    return response.json()["predictions"][0]['caption']

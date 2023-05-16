@@ -13,11 +13,11 @@ def get_images_from_all_categories():
 
 
 def get_file_names():
-    return list(map(lambda image: image['filename'], get_all_images()['resources'][::]))
+    return list(map(lambda image: image['filename'], get_images_from_all_categories()['resources'][::]))
 
 
 def get_all_categories():
-    folders = set(list(map(lambda image: image['folder'], get_all_images()['resources'][::])))
+    folders = set(list(map(lambda image: image['folder'],get_images_from_all_categories()['resources'][::])))
     return folders
 
 
