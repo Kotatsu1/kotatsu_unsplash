@@ -38,7 +38,6 @@ def upload_image(title, url):
 
 def add_favorite_image_to_db(image_url: str, user_email: str):
     connection = database.get_connection()
-    user_email => find user => into favoriteImages add => image_url
     query = "INSERT INTO favoriteImages (user_email, image_url) VALUES ('{}', '{}')".format(user_email, image_url)
 
     cursor = connection.cursor()
