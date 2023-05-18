@@ -4,7 +4,7 @@ load_dotenv()
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-from test_db import database
+
 
 
 config = cloudinary.config(secure=True)
