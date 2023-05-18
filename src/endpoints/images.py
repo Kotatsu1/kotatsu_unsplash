@@ -54,3 +54,8 @@ def image_caption(image_url: str):
 @router.post("/favorite")
 def favorite_image(image_url: str, user_email: str):    
     return images.add_favorite_image_to_db(image_url, user_email)
+
+
+@router.get("/TESTusers")
+def TESTING_get_all_users():
+    return images.get_all_users()
