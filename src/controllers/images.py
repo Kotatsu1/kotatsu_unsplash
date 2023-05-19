@@ -38,26 +38,13 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
-# def add_favorite_image_to_db(image_url: str, user_email: str):
-#     connection = database.get_connection()
-#     query = "INSERT INTO favoriteImages (user_email, image_url) VALUES ('{}', '{}')".format(user_email, image_url)
-
-#     cursor = connection.cursor()
-#     cursor.execute(query)
-#     connection.commit()
-#     cursor.close()
-#     connection.close()
-
-def get_all_users():
-
+def add_favorite_image_to_db(public_id: str, user_id: int):
     connection = database.get_connection()
 
+    query = "INSERT INTO \"favoriteImages\" (public_id, user_id) VALUES ('{}', {})".format(public_id, user_id)
 
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM "User"')
-    users = cursor.fetchall()
+    cursor.execute(query)
+    connection.commit()
     cursor.close()
     connection.close()
-
-    return users
-
