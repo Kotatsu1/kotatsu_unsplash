@@ -52,7 +52,7 @@ def image_caption(image_url: str):
         return e
 
 @router.post("/favorite")
-def favorite_image(public_id: str, user_id: int):
+def favorite_image(public_id: str, user_id: str):
     try:
         images.add_favorite_image_to_db(public_id, user_id)
         return 'success'
