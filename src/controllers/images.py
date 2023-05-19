@@ -8,6 +8,7 @@ import cloudinary.uploader
 from db import database
 
 
+
 config = cloudinary.config(secure=True)
 
 
@@ -48,7 +49,9 @@ def upload_image(title, url):
 #     connection.close()
 
 def get_all_users():
+
     connection = database.get_connection()
+
 
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM "User"')
