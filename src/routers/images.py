@@ -47,5 +47,10 @@ def image_caption(image_caption: Annotated[dict, Depends(images.image_caption)])
 
 
 @router.post("/favorite")
-def favorite_image(favorite: Annotated[dict, Depends(favorite.favorite_image)]):
+def favorite_image(favorite: Annotated[dict, Depends(favorite.update_favorite_image)]):
     return favorite
+
+
+@router.get("/user_favorites")
+def get_all_images_with_favorite(user_favorite: Annotated[dict, Depends(images.get_all_images_with_favorite)]):
+    return user_favorite

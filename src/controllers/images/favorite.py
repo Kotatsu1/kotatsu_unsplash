@@ -1,13 +1,12 @@
 from utils import database
-import psycopg2
 from dotenv import load_dotenv
 from fastapi import HTTPException
-from schemas.image_schemas import Favorite
+from schemas.image_schemas import UpdateFavorite
 
 load_dotenv()
 
 
-def favorite_image(request: Favorite):
+def update_favorite_image(request: UpdateFavorite):
     public_id, token = request.public_id, request.token
     try:
         connection = database.get_connection()
@@ -39,10 +38,44 @@ def favorite_image(request: Favorite):
             cursor.execute(remove_image_query)
             connection.commit()
             return 'Image removed from favorites'
+        
     except Exception:
         return 'Could not execute favorite image'
     
     finally:
         cursor.close()
         connection.close()
-        print('Database connection closed')
+
+
+
+def user_favorive_images(token):
+    try:
+        connection = database.get_connection()
+        cursor = connection.cursor()
+
+        if token is None:
+            raise HTTPException(status_code=404, detail='Token is required')
+
+        user_query = 'SELECT id FROM "User" WHERE "accessToken" = \'{}\''.format(token) 
+
+        cursor.execute(user_query)
+        user_id = cursor.fetchone()
+        if user_id is None:
+            raise HTTPException(status_code=404, detail='User not found')
+
+        favorite_images_query = 'SELECT public_id FROM "favoriteImages" WHERE user_id = \'{}\''.format(user_id[0])
+
+        cursor.execute(favorite_images_query)
+        rows = cursor.fetchall()
+        all_favorites = [row[0] for row in rows]
+
+        if all_favorites is None:
+            raise HTTPException(status_code=404, detail='No favorite images found')
+        return all_favorites
+    
+    except Exception:
+        return 'Could fetch user favorite images'
+    
+    finally:
+        cursor.close()
+        connection.close()

@@ -3,9 +3,10 @@ import cloudinary
 import cloudinary.api
 import cloudinary.uploader
 from utils import database
-import psycopg2
 from dotenv import load_dotenv
 import replicate
+
+from controllers.images import favorite
 
 load_dotenv()
 
@@ -44,3 +45,14 @@ def image_caption(image_url):
         )
     return caption
 
+
+def get_all_images_with_favorite(token: str):
+    all_images = get_images_from_all_categories()
+    favorite_images = favorite.user_favorive_images(token)
+
+    all_images['resources'] = list(map(
+        lambda image: {**image, 'favorite': True} if image['public_id'] in favorite_images else {**image, 'favorite': False},
+        all_images['resources']
+    ))
+
+    return all_images

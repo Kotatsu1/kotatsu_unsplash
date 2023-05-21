@@ -6,6 +6,10 @@ class UploadImage(BaseModel):
     url: str
 
 
-class Favorite(BaseModel):
+class UpdateFavorite(BaseModel):
     public_id: str
+    token: str
+
+
+class FetchFavorites(BaseModel):
     token: str
