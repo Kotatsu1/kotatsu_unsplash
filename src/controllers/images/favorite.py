@@ -31,7 +31,7 @@ def favorite_image(request: Favorite):
 
 
         if existing_image is None:
-            add_image_query = 'INSERT INTO "favoriteImages" (public_id, user_id) VALUES ({}, \'{}\')'.format(public_id, user_id[0])
+            add_image_query = 'INSERT INTO "favoriteImages" (public_id, user_id) VALUES (\'{}\', \'{}\')'.format(public_id, user_id[0])
             cursor.execute(add_image_query)
             connection.commit()
             cursor.close()
