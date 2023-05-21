@@ -2,12 +2,14 @@ from utils import database
 import psycopg2
 from dotenv import load_dotenv
 from fastapi import HTTPException
-
+from schemas.image_schemas import Favorite
 
 load_dotenv()
 
 
-def favorite_image(public_id: str, token: str):
+def favorite_image(request: Favorite):
+    public_id, token = request.public_id, request.token
+
     connection = database.get_connection()
     cursor = connection.cursor()
     try:
