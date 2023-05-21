@@ -47,4 +47,6 @@ def favorite_image(request: Favorite):
             return 'Image removed from favorites'
         
     except psycopg2.Error as e:
+        cursor.close()
+        connection.close()
         raise HTTPException(status_code=500, detail='Failed to favorite image' + ' SQL DETAIL: ' + str(e))
