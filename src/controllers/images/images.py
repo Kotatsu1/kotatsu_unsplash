@@ -5,8 +5,10 @@ import cloudinary.uploader
 from utils import database
 import psycopg2
 from dotenv import load_dotenv
+import replicate
 
 load_dotenv()
+
 config = cloudinary.config(secure=True)
 
 
@@ -35,4 +37,10 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
+def image_caption(image_url):
+    caption = replicate.run(
+            "salesforce/blip:2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746",
+            input={"image": image_url},
+        )
+    return caption
 

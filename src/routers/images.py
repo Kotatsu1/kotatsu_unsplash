@@ -42,16 +42,8 @@ def autocomplete_search(query: str):
 
 
 @router.post("/caption")
-def image_caption(image_url: str):
-    try:
-        url = "http://localhost:5000/model/predict"
-        response = requests.get(image_url)
-        files = {"image": ("image.jpg", BytesIO(response.content), "image/jpeg")}
-        headers = {"accept": "application/json"}
-        response = requests.post(url, headers=headers, files=files)
-        return response.json()["predictions"][0]['caption']
-    except Exception as e:
-        return e
+def image_caption(image_caption: Annotated[dict, Depends(images.image_caption)]):
+    return image_caption
 
 
 @router.post("/favorite")
