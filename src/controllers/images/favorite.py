@@ -45,3 +45,4 @@ def favorite_image(request: Favorite):
     finally:
         cursor.close()
         connection.close()
+        print('Database connection closed')
