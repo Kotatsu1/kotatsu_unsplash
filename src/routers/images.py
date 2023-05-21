@@ -1,8 +1,10 @@
 from schemas.image_schemas import UploadImage
-from controllers import images
-from fastapi import APIRouter, HTTPException
+from controllers.images import images, favorite
+from fastapi import APIRouter, HTTPException, Depends
 import requests
 from io import BytesIO
+from typing import Annotated
+
 
 
 router = APIRouter(prefix='/api/images', tags=['images'])
@@ -51,8 +53,7 @@ def image_caption(image_url: str):
     except Exception as e:
         return e
 
-@router.post("/favorite")
-def favorite_image(public_id: str, user_id: str):
-    return images.add_favorite_image_to_db(public_id, user_id)
 
-    
+@router.post("/favorite")
+def favorite_image(favorite: Annotated[dict, Depends(favorite.favorite_image)]):
+    return favorite

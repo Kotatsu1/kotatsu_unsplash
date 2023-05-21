@@ -2,7 +2,7 @@ from fastapi import HTTPException
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-from db import database
+from utils import database
 import psycopg2
 from dotenv import load_dotenv
 
@@ -19,7 +19,7 @@ def get_file_names():
 
 
 def get_all_categories():
-    folders = set(list(map(lambda image: image['folder'],get_images_from_all_categories()['resources'][::])))
+    folders = set(list(map(lambda image: image['folder'], get_images_from_all_categories()['resources'][::])))
     return folders
 
 
@@ -35,16 +35,4 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
-def add_favorite_image_to_db(public_id: str, user_id: str):
-    connection = database.get_connection()
 
-    query = 'INSERT INTO "favoriteImages" (public_id, user_id) VALUES ({}, {})'.format(public_id, user_id)
-    try:
-        cursor = connection.cursor()
-        cursor.execute(query)
-        connection.commit()
-        cursor.close()
-        connection.close()
-        return 'success'
-    except psycopg2.Error as e:
-        raise HTTPException(status_code=500, detail=str(e))
