@@ -1,6 +1,6 @@
 from dotenv import load_dotenv
 import replicate
-
+from fastapi import HTTPException
 load_dotenv()
 
 
@@ -21,4 +21,4 @@ def image_generation(prompt: str):
         )
         return output_url[0]
     except:
-        return 'Probably NSFW request'
+        raise HTTPException(status_code=404, detail="Probably NSFW request")
