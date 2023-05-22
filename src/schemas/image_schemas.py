@@ -13,3 +13,5 @@ class UpdateFavorite(BaseModel):
 
 class FetchFavorites(BaseModel):
     token: str
+    class Config():
+        orm_mode = True
