@@ -14,8 +14,11 @@ def image_caption(image_url):
 
 
 def image_generation(prompt: str):
-    output_url = replicate.run(
-        "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
-        input={"prompt": prompt}
-    )
-    return output_url[0]
+    try:
+        output_url = replicate.run(
+            "stability-ai/stable-diffusion:db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf",
+            input={"prompt": prompt}
+        )
+        return output_url[0]
+    except:
+        return 'Probably NSFW request'
