@@ -39,9 +39,10 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
-def get_all_images_with_favorite(token: str = Body(...)):
+def get_all_images_with_favorite(request: FetchFavorites = Body(...)):
+    payload = request.token
     all_images = get_images_from_all_categories()
-    favorite_images = favorite.user_favorive_images(token)
+    favorite_images = favorite.user_favorive_images(payload)
 
     all_images['resources'] = list(map(
         lambda image: {**image, 'favorite': True}  if image['public_id'] in favorite_images else {**image, 'favorite': False},
