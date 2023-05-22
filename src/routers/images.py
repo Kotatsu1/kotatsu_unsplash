@@ -42,6 +42,6 @@ def update_favorite_image(favorite: Annotated[dict, Depends(favorite.update_favo
     return favorite
 
 
-@router.get("/user_favorites")
+@router.post("/user_favorites")
 def get_all_images_with_favorite(user_favorite: Annotated[dict, Depends(images.get_all_images_with_favorite)]):
     return user_favorite

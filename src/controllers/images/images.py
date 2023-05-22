@@ -4,6 +4,7 @@ import cloudinary.api
 import cloudinary.uploader
 from dotenv import load_dotenv
 from controllers.images import favorite
+from schemas.image_schemas import FetchFavorites
 
 load_dotenv()
 
@@ -35,9 +36,9 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
-def get_all_images_with_favorite(token: str,):
+def get_all_images_with_favorite(request: FetchFavorites):
     all_images = get_images_from_all_categories()
-    favorite_images = favorite.user_favorive_images(token)
+    favorite_images = favorite.user_favorive_images(request.token)
 
     all_images['resources'] = list(map(
         lambda image: {**image, 'favorite': True}  if image['public_id'] in favorite_images else {**image, 'favorite': False},
