@@ -50,5 +50,5 @@ def update_favorite_image(favorite: Annotated[dict, Depends(favorite.update_favo
 
 
 @router.post("/user_favorites")
-def get_all_images_with_favorite(request: FetchFavorites = Body(...)):
-    return images.get_all_images_with_favorite(request.token)
+def get_all_images_with_favorite(token: dict = Body(...)):
+    return images.get_all_images_with_favorite(token)
