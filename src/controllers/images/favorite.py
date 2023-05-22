@@ -48,7 +48,7 @@ def update_favorite_image(request: UpdateFavorite):
 
 
 
-def user_favorive_images(token):
+def user_favorive_images(token: str):
     try:
         connection = get_connection()
         cursor = connection.cursor()
