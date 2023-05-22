@@ -39,7 +39,7 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
-def get_all_images_with_favorite(request: FetchFavorites = Body(...)):
+def get_all_images_with_favorite(request: FetchFavorites):
     payload = request.token
     all_images = get_images_from_all_categories()
     favorite_images = favorite.user_favorive_images(payload)
