@@ -1,4 +1,5 @@
 from fastapi import HTTPException
+from fastapi.encoders import jsonable_encoder
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
@@ -37,8 +38,9 @@ def upload_image(title, url):
 
 
 def get_all_images_with_favorite(request: FetchFavorites):
+    decoded_json = jsonable_encoder(request)
     all_images = get_images_from_all_categories()
-    favorite_images = favorite.user_favorive_images(request.token)
+    favorite_images = favorite.user_favorive_images(decoded_json)
 
     all_images['resources'] = list(map(
         lambda image: {**image, 'favorite': True}  if image['public_id'] in favorite_images else {**image, 'favorite': False},
