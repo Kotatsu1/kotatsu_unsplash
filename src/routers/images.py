@@ -1,14 +1,9 @@
 from schemas.image_schemas import UploadImage
 from controllers.images import images, favorite
 from fastapi import APIRouter, HTTPException, Depends
-import requests
-from io import BytesIO
 from typing import Annotated
 
-
-
 router = APIRouter(prefix='/api/images', tags=['images'])
-
 
 
 @router.get('/all')
@@ -40,10 +35,6 @@ def get_all_categories():
 def autocomplete_search(query: str):
     return {'search': images.autocomplete_search(query)}
 
-
-@router.post("/caption")
-def image_caption(image_caption: Annotated[dict, Depends(images.image_caption)]):
-    return image_caption
 
 
 @router.post("/favorite")

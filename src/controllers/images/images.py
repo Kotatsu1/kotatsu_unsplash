@@ -2,10 +2,7 @@ from fastapi import HTTPException
 import cloudinary
 import cloudinary.api
 import cloudinary.uploader
-from utils import database
 from dotenv import load_dotenv
-import replicate
-
 from controllers.images import favorite
 
 load_dotenv()
@@ -38,12 +35,6 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
-def image_caption(image_url):
-    caption = replicate.run(
-            "salesforce/blip:2e1dddc8621f72155f24cf2e0adbde548458d3cab9f00c0139eea840d0ac4746",
-            input={"image": image_url},
-        )
-    return caption
 
 
 def get_all_images_with_favorite(token: str):
@@ -56,3 +47,4 @@ def get_all_images_with_favorite(token: str):
     ))
 
     return all_images
+

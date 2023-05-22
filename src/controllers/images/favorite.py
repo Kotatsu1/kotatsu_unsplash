@@ -1,4 +1,4 @@
-from utils import database
+from utils.database import get_connection
 from dotenv import load_dotenv
 from fastapi import HTTPException
 from schemas.image_schemas import UpdateFavorite
@@ -9,7 +9,7 @@ load_dotenv()
 def update_favorite_image(request: UpdateFavorite):
     public_id, token = request.public_id, request.token
     try:
-        connection = database.get_connection()
+        connection = get_connection()
         cursor = connection.cursor()
 
         if token and public_id is None:
@@ -50,7 +50,7 @@ def update_favorite_image(request: UpdateFavorite):
 
 def user_favorive_images(token):
     try:
-        connection = database.get_connection()
+        connection = get_connection()
         cursor = connection.cursor()
 
         if token is None:
