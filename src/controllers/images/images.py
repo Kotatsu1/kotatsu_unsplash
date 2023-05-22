@@ -6,6 +6,9 @@ from dotenv import load_dotenv
 from controllers.images import favorite
 from schemas.image_schemas import FetchFavorites
 
+from fastapi import Body
+
+
 load_dotenv()
 
 config = cloudinary.config(secure=True)
@@ -36,7 +39,7 @@ def upload_image(title, url):
     return cloudinary.uploader.upload(url, public_id = title, overwrite = True, folder = 'gallery')
 
 
-def get_all_images_with_favorite(token: str):
+def get_all_images_with_favorite(token: str = Body(...)):
     all_images = get_images_from_all_categories()
     favorite_images = favorite.user_favorive_images(token)
 

@@ -3,7 +3,6 @@ from controllers.images import images, favorite
 from fastapi import APIRouter, HTTPException, Depends, Body
 from typing import Annotated
 
-from schemas.image_schemas import FetchFavorites
 
 router = APIRouter(prefix='/api/images', tags=['images'])
 
@@ -44,11 +43,6 @@ def update_favorite_image(favorite: Annotated[dict, Depends(favorite.update_favo
     return favorite
 
 
-# @router.post("/user_favorites")
-# def get_all_images_with_favorite(user_favorite: Annotated[dict, Depends(images.get_all_images_with_favorite)]):
-#     return user_favorite
-
-
 @router.post("/user_favorites")
-def get_all_images_with_favorite(token: dict = Body(...)):
-    return images.get_all_images_with_favorite(token)
+def get_all_images_with_favorite(user_favorite: Annotated[dict, Depends(images.get_all_images_with_favorite)]):
+    return user_favorite
