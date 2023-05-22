@@ -37,8 +37,8 @@ def autocomplete_search(query: str):
 
 
 
-@router.post("/favorite")
-def favorite_image(favorite: Annotated[dict, Depends(favorite.update_favorite_image)]):
+@router.post("/update_favorite")
+def update_favorite_image(favorite: Annotated[dict, Depends(favorite.update_favorite_image)]):
     return favorite
 
 
