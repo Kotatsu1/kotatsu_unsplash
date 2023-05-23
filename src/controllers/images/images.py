@@ -4,7 +4,7 @@ import cloudinary.api
 import cloudinary.uploader
 from dotenv import load_dotenv
 from controllers.images import favorite
-from schemas.image_schemas import FetchFavorites
+from schemas.image_schemas import FetchFavorites, FetchImages
 
 from fastapi import Body
 
@@ -14,21 +14,21 @@ load_dotenv()
 config = cloudinary.config(secure=True)
 
 
-def get_images_from_all_categories():
-    return cloudinary.Search().execute()
+def get_images_from_all_categories(request: FetchImages):
+    return cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
 
 
 def get_file_names():
     return list(map(lambda image: image['filename'], get_images_from_all_categories()['resources'][::]))
 
 
-def get_all_categories():
-    folders = set(list(map(lambda image: image['folder'], get_images_from_all_categories()['resources'][::])))
-    return folders
+def get_folders():
+    return cloudinary.api.root_folders()
+
 
 
 def get_images_from_category(folder_name, next_cursor: str | None = None):
-    return cloudinary.Search().max_results("30").next_cursor(next_cursor).expression(f"folder:{folder_name}").execute()
+    return cloudinary.Search().max_results("50").next_cursor(next_cursor).expression(f"folder:{folder_name}").execute()
 
 
 def autocomplete_search(query: str):

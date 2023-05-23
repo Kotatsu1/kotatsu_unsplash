@@ -8,9 +8,9 @@ from schemas.image_schemas import FetchFavorites
 router = APIRouter(prefix='/api/images', tags=['images'])
 
 
-@router.get('/all')
-def get_images_from_all_categories():
-    return images.get_images_from_all_categories()
+@router.post('/all')
+def get_images_from_all_categories(all_images: Annotated[dict, Depends(images.get_images_from_all_categories)]):
+    return all_images
 
 
 @router.post('/upload', description='For now in Gallery folder')
@@ -29,8 +29,8 @@ def get_images_from_category(folder_name: str, next_cursor: str | None = None):
 
 
 @router.get('/get_folders')
-def get_all_categories():
-    return images.get_all_categories()
+def get_folders():
+    return images.get_folders()
 
 
 @router.post("/search")

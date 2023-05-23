@@ -1,6 +1,10 @@
 from pydantic import BaseModel
 
 
+class FetchImages(BaseModel):
+    next_cursor: str | None = None
+
+
 class UploadImage(BaseModel):
     title: str
     url: str
