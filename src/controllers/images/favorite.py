@@ -74,7 +74,7 @@ def user_favorive_images(token: str):
         return all_favorites
     
     except Exception:
-        return 'Could fetch user favorite images'
+        return 'Could not fetch user favorite images'
     
     finally:
         cursor.close()

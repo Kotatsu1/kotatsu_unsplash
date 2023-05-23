@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import images, ai
+from routers import images, ai, collections
 import uvicorn
 
 
@@ -9,6 +9,7 @@ app = FastAPI(title='Unsplash API',)
 
 app.include_router(images.router)
 app.include_router(ai.router)
+app.include_router(collections.router)
 
 app.add_middleware(
     CORSMiddleware,

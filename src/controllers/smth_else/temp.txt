@@ -1,0 +1,12 @@
+CREATE TABLE collections (
+  collection_id INT AUTO_INCREMENT PRIMARY KEY,
+  title TEXT NOT NULL,
+  description TEXT,
+  owner TEXT
+);
+
+
+CREATE TABLE collection_content (
+  content_id INT PRIMARY KEY,
+  public_id TEXT NOT NULL
+);
