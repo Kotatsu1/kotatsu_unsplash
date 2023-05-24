@@ -1,12 +1,17 @@
 CREATE TABLE collections (
-  collection_id INT AUTO_INCREMENT PRIMARY KEY,
+  collection_id serial PRIMARY KEY,
   title TEXT NOT NULL,
   description TEXT,
-  owner TEXT
+  fk_user_id text REFERENCES "User"(id) NOT NULL
 );
 
 
 CREATE TABLE collection_content (
-  content_id INT PRIMARY KEY,
-  public_id TEXT NOT NULL
+  content_id serial PRIMARY KEY,
+  public_id TEXT NOT NULL,
+  fk_collection_id integer REFERENCES collections(collection_id) NOT NULL
 );
+
+
+
+INSERT INTO collections (title, description, fk_user_id) VALUES ('test_title', 'test_decs' , '1')

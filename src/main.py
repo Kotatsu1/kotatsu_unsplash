@@ -4,7 +4,7 @@ from routers import images, ai, collections
 import uvicorn
 
 
-app = FastAPI(title='Unsplash API',)
+app = FastAPI(title='Luminova API',)
 
 
 app.include_router(images.router)
