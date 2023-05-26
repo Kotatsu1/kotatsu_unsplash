@@ -2,10 +2,16 @@ from pydantic import BaseModel
 
 
 class FetchImages(BaseModel):
-    next_cursor: str | None = None
+    next_cursor: str
+
+
+class FetchFromCategory(BaseModel):
+    folder: str
+    next_cursor: str
 
 
 class UploadImage(BaseModel):
+    folder: str
     title: str
     url: str
 
@@ -17,5 +23,4 @@ class UpdateFavorite(BaseModel):
 
 class FetchFavorites(BaseModel):
     token: str
-    class Config():
-        orm_mode = True
+    next_cursor: str

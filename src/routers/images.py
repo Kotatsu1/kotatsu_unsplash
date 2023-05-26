@@ -14,18 +14,13 @@ def get_images_from_all_categories(all_images: Annotated[dict, Depends(images.ge
 
 
 @router.post('/upload', description='For now in Gallery folder')
-def upload_image(request: UploadImage):
-    try:
-        response = images.upload_image(request.title, request.url)
-    except Exception:
-        raise HTTPException(status_code=404, detail='Error during upload')
-    return response
+def upload_image(upload_image: Annotated[dict, Depends(images.upload_image)]):
+    return upload_image
 
 
-@router.get('/category')
-def get_images_from_category(folder_name: str, next_cursor: str | None = None):
-    print(folder_name)
-    return images.get_images_from_category(folder_name, next_cursor)
+@router.post('/category')
+def get_images_from_category(category_images: Annotated[dict, Depends(images.get_images_from_category)]):
+    return category_images
 
 
 @router.get('/get_folders')
@@ -39,8 +34,8 @@ def autocomplete_search(query: str):
 
 
 @router.post("/update_favorite")
-def update_favorite_image(favorite: Annotated[dict, Depends(favorite.update_favorite_image)]):
-    return favorite
+def update_favorite_image(updated_favorite: Annotated[dict, Depends(favorite.update_favorite_image)]):
+    return updated_favorite
 
 
 @router.post("/user_favorites")

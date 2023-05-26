@@ -8,25 +8,43 @@ load_dotenv()
 
 
 def update_favorite_image(request: UpdateFavorite):
-    public_id, token = request.public_id, request.token
     try:
         connection = get_connection()
         cursor = connection.cursor()
 
-        user_id = get_user_by_token(token)
+        user_id = get_user_by_token(request.token)
 
-        existing_image_query = 'SELECT * FROM "favoriteImages" WHERE public_id = \'{}\' AND user_id = \'{}\''.format(public_id, user_id)
-
+        existing_image_query = (
+            '''
+            SELECT * 
+            FROM "favoriteImages" 
+            WHERE public_id = \'{}\' AND user_id = \'{}\'
+            '''
+        ).format(request.public_id, user_id)
+        
         cursor.execute(existing_image_query)
         existing_image = cursor.fetchone()
 
         if existing_image is None:
-            add_image_query = 'INSERT INTO "favoriteImages" (public_id, user_id) VALUES (\'{}\', \'{}\')'.format(public_id, user_id[0])
+            add_image_query = (
+                '''
+                INSERT INTO "favoriteImages" 
+                (public_id, user_id) 
+                VALUES (\'{}\', \'{}\')
+                '''
+            ).format(request.public_id, user_id)
+            
             cursor.execute(add_image_query)
             connection.commit()
             return 'Image added to favorites'
         else:
-            remove_image_query = 'DELETE FROM "favoriteImages" WHERE public_id = \'{}\' AND user_id = \'{}\''.format(public_id, user_id[0])
+            remove_image_query = (
+                '''
+                DELETE FROM "favoriteImages" 
+                WHERE public_id = \'{}\' AND user_id = \'{}\'
+                '''
+            ).format(request.public_id, user_id[0])
+
             cursor.execute(remove_image_query)
             connection.commit()
             return 'Image removed from favorites'
@@ -46,8 +64,14 @@ def user_favorive_images(token: str):
 
         user_id = get_user_by_token(token)
 
-        favorite_images_query = 'SELECT public_id FROM "favoriteImages" WHERE user_id = \'{}\''.format(user_id)
-
+        favorite_images_query = (
+            '''
+            SELECT public_id 
+            FROM "favoriteImages" 
+            WHERE user_id = \'{}\'
+            '''
+        ).format(user_id)
+        
         cursor.execute(favorite_images_query)
         rows = cursor.fetchall()
         all_favorites = [row[0] for row in rows]
