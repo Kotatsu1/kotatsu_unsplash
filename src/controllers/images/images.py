@@ -16,10 +16,6 @@ def get_images_from_all_categories(request: FetchImages) -> dict:
     return cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
         
 
-def get_file_names() -> list:
-    return list(map(lambda image: image['filename'], cloudinary.Search().execute()['resources'][::]))
-
-
 def get_folders() -> dict:
     return cloudinary.api.root_folders()
 
@@ -29,10 +25,6 @@ def get_images_from_category(request: FetchFromCategory):
         return cloudinary.Search().max_results("50").next_cursor(request.next_cursor).expression(f"folder:{request.folder}").execute()
     except Exception:
         raise HTTPException(status_code=404, detail='Cound not get images from category')
-
-def autocomplete_search(query: str):
-    return list(filter(lambda name: name.startswith(query), get_file_names()))
-
 
 def upload_image(request: UploadImage):
     try:
