@@ -17,22 +17,16 @@ def upload_image(upload_image: Annotated[dict, Depends(images.upload_image)]):
     return upload_image
 
 
-
-
-
-
 @router.post("/search")
 def autocomplete_search(query: str):
     return {'search': images.autocomplete_search(query)}
 
 
-@router.post("/update_favorite")
+@router.post("/update-favorite")
 def update_favorite_image(updated_favorite: Annotated[dict, Depends(favorite.update_favorite_image)]):
     return updated_favorite
 
 
-@router.post("/all_favorites")
+@router.post("/all-favorites")
 def get_all_images_with_favorite(user_favorite: Annotated[dict, Depends(images.get_all_images_with_favorite)]):
     return user_favorite
-
-

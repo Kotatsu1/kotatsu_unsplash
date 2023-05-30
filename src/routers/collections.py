@@ -10,7 +10,7 @@ def create_collection(result: Annotated[dict, Depends(collections.create_collect
     return result
 
 
-@router.post('/user_collections')
+@router.post('/user-collections')
 def get_user_collection(result: Annotated[dict, Depends(collections.get_user_collection)]):
     return result
 
@@ -25,11 +25,11 @@ def update_collection_info(result: Annotated[dict, Depends(collections.update_co
     return result
 
 
-@router.post('/add_images')
+@router.post('/add-images')
 def add_images_to_collection(result: Annotated[dict, Depends(collections.add_images_to_collection)]):
     return result
 
 
-@router.post('/delete_images')
+@router.post('/delete-images')
 def delete_images_from_collection(result: Annotated[dict, Depends(collections.delete_images_from_collection)]):
     return result
