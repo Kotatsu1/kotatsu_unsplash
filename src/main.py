@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import images, ai, collections, search
+from routers import images, ai, collections, search, categories
 import uvicorn
 
 
@@ -8,9 +8,10 @@ app = FastAPI(title='Luminova API',)
 
 
 app.include_router(images.router)
-app.include_router(ai.router)
+app.include_router(categories.router)
 app.include_router(collections.router)
 app.include_router(search.router)
+app.include_router(ai.router)
 
 app.add_middleware(
     CORSMiddleware,

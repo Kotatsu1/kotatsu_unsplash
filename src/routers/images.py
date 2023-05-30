@@ -1,6 +1,6 @@
 from schemas.image_schemas import UploadImage
 from controllers.images import images, favorite
-from fastapi import APIRouter, HTTPException, Depends, Body
+from fastapi import APIRouter, HTTPException, Depends
 from typing import Annotated
 
 
@@ -17,14 +17,8 @@ def upload_image(upload_image: Annotated[dict, Depends(images.upload_image)]):
     return upload_image
 
 
-@router.post('/category')
-def get_images_from_category(category_images: Annotated[dict, Depends(images.get_images_from_category)]):
-    return category_images
 
 
-@router.get('/get_folders')
-def get_folders():
-    return images.get_folders()
 
 
 @router.post("/search")
@@ -42,6 +36,3 @@ def get_all_images_with_favorite(user_favorite: Annotated[dict, Depends(images.g
     return user_favorite
 
 
-@router.post("/category_favorites")
-def get_category_images_with_favorite(category_favorite: Annotated[dict, Depends(images.get_category_images_with_favorite)]):
-    return category_favorite
