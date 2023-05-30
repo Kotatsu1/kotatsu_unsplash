@@ -12,7 +12,7 @@ config = cloudinary.config(secure=True)
 
 
 
-def get_folders() -> dict:
+def get_categories() -> dict:
     return cloudinary.api.root_folders()
 
 
