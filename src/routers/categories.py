@@ -16,6 +16,6 @@ def get_images_from_category(category_images: Annotated[dict, Depends(categories
     return category_images
 
 
-@router.post("/favorite_images")
+@router.post("/all_favorites")
 def get_category_images_with_favorite(category_favorite: Annotated[dict, Depends(categories.get_category_images_with_favorite)]):
     return category_favorite
