@@ -21,6 +21,12 @@ class UpdateFavorite(BaseModel):
     token: str
 
 
-class FetchFavorites(BaseModel):
+class FetchAllFavorites(BaseModel):
     token: str
     next_cursor: str
+
+
+class FetchCategoryFavorites(BaseModel):
+    token: str
+    next_cursor: str
+    category: str

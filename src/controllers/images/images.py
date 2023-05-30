@@ -4,7 +4,7 @@ import cloudinary.api
 import cloudinary.uploader
 from dotenv import load_dotenv
 from controllers.images import favorite
-from schemas.image_schemas import FetchFavorites, FetchImages, UploadImage, FetchFromCategory
+from schemas.image_schemas import FetchAllFavorites, FetchImages, UploadImage, FetchFromCategory, FetchCategoryFavorites
 
 
 load_dotenv()
@@ -34,7 +34,7 @@ def upload_image(request: UploadImage):
         raise HTTPException(status_code=500, detail='Could not upload image')
 
 
-def get_all_images_with_favorite(request: FetchFavorites):
+def get_all_images_with_favorite(request: FetchAllFavorites):
     all_images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
     favorite_images = favorite.user_favorive_images(request.token)
 
@@ -49,3 +49,21 @@ def get_all_images_with_favorite(request: FetchFavorites):
     all_images['resources'] = list(map(mark_favorite, all_images['resources']))
 
     return all_images
+
+
+def get_category_images_with_favorite(request: FetchCategoryFavorites):
+    all_images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).expression(f"folder:{request.category}").execute()
+    favorite_images = favorite.user_favorive_images(request.token)
+
+    def mark_favorite(image):
+        if image['public_id'] in favorite_images:
+            image['favorite'] = True
+        else:
+            image['favorite'] = False
+        return image
+
+
+    all_images['resources'] = list(map(mark_favorite, all_images['resources']))
+
+    return all_images
+
