@@ -37,7 +37,5 @@ def get_category_images_with_favorite(request: FetchCategoryFavorites):
             image['favorite'] = False
         return image
 
-
     all_images['resources'] = list(map(mark_favorite, all_images['resources']))
-
     return all_images

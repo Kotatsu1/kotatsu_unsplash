@@ -17,3 +17,6 @@ def autocomplete_search(query: str):
     result = cloudinary.Search().expression(f"{query}").max_results("10").execute()
     return [image['filename'] for image in result['resources']]
 
+
+def search_images(query: str):
+    return cloudinary.Search().expression(f"{query}").execute()
