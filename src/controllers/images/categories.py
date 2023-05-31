@@ -13,7 +13,10 @@ config = cloudinary.config(secure=True)
 
 
 def get_categories() -> dict:
-    return cloudinary.api.root_folders()
+    response = cloudinary.api.root_folders()
+    for i in response['folders']:
+        i['name'] = i['name'].capitalize().replace('-', ' ')
+    return response
 
 
 def get_images_from_category(request: FetchFromCategory):
