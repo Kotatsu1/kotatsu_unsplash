@@ -34,3 +34,11 @@ class DeleteImages(BaseModel):
     public_id: str
     collection_id: int
 
+
+class FetchImagesFromCollection(BaseModel):
+    collection_id: int 
+
+
+class FetchFavoritesFromCollection(BaseModel):
+    collection_id: int
+    token: str

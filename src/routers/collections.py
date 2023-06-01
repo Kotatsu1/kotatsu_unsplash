@@ -33,3 +33,13 @@ def add_images_to_collection(result: Annotated[dict, Depends(collections.add_ima
 @router.post('/delete-images')
 def delete_images_from_collection(result: Annotated[dict, Depends(collections.delete_images_from_collection)]):
     return result
+
+
+@router.post('/collection-content')
+def get_collection_content(result: Annotated[dict, Depends(collections.get_images_from_collection)]):
+    return result
+
+
+@router.post('/collection-content-favorite')
+def get_collection_content_favorite(result: Annotated[dict, Depends(collections.get_images_from_collection_with_favorite)]):
+    return result
