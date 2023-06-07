@@ -21,13 +21,16 @@ def get_categories() -> dict:
 
 def get_images_from_category(request: FetchFromCategory):
     try:
-        return cloudinary.Search().max_results("50").next_cursor(request.next_cursor).expression(f"folder:{request.folder}").execute()
+        images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).expression(f"folder:{request.folder}").execute()
+        images.update({'page_preview': f'http://45.87.246.48:8000/page_preview/{request.folder}.avif'})
+        return images
     except Exception:
         raise HTTPException(status_code=404, detail='Cound not get images from category')
 
 
 def get_category_images_with_favorite(request: FetchCategoryFavorites):
     all_images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).expression(f"folder:{request.category}").execute()
+    all_images.update({'page_preview': f'http://45.87.246.48:8000/page_preview/{request.category}.avif'})
     favorite_images = favorite.user_favorive_images(request.token)
 
     def mark_favorite(image):

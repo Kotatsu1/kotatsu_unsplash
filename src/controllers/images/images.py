@@ -28,6 +28,7 @@ def upload_image(request: UploadImage):
 
 def get_all_images_with_favorite(request: FetchAllFavorites):
     all_images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
+    all_images.update({'page_preview': 'http://45.87.246.48:8000/page_preview/editorial.avif'})
     favorite_images = favorite.user_favorive_images(request.token)
 
     def mark_favorite(image):
