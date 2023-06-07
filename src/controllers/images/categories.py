@@ -34,19 +34,18 @@ def get_images_from_category(request: FetchFromCategory):
         raise HTTPException(status_code=404, detail='Cound not get images from category')
 
 
+def mark_favorite(image, favorite_images):
+    public_id = image['public_id']
+    if public_id in favorite_images:
+        return {**image, 'favorite': True}
+    else:
+        return {**image, 'favorite': False}
+
 def get_category_images_with_favorite(request: FetchCategoryFavorites):
     all_images = get_images_with_params(request.category, request.next_cursor)
     added_preview = add_page_preview(all_images, request.category)
     resources = added_preview['resources']
     favorite_images = favorite.user_favorive_images(request.token)
 
-    def mark_favorite(image):
-        if image['public_id'] in favorite_images:
-            image['favorite'] = True
-        else:
-            image['favorite'] = False
-        return image
-
-    # resources = list(map(lambda image: image['favorite'] = True if image["public_id"] in favorite_images else image['favorite'] = False, resources))
-    resources = list(map(mark_favorite, resources))
-    return added_preview
+    resources = list(map(lambda image: mark_favorite(image, favorite_images), resources))
+    return {**added_preview, 'resources': resources}
