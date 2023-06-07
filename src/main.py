@@ -1,11 +1,11 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from routers import images, ai, collections, search, categories
-from routers.cms import cms
 import uvicorn
 
 
-app = FastAPI(title='Luminova API',)
+app = FastAPI(title='Luminova API', docs_url='/core_docs', redoc_url=None)
 
 
 app.include_router(images.router)
@@ -13,7 +13,8 @@ app.include_router(categories.router)
 app.include_router(collections.router)
 app.include_router(search.router)
 app.include_router(ai.router)
-app.include_router(cms.router)
+
+app.mount('/page_preview', StaticFiles(directory='page_preview'), name='page_preview')
 
 app.add_middleware(
     CORSMiddleware,

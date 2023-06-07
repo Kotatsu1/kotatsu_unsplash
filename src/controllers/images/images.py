@@ -13,7 +13,9 @@ config = cloudinary.config(secure=True)
 
 
 def get_images_from_all_categories(request: FetchImages) -> dict:
-    return cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
+    images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
+    images.update({'page_preview': 'http://45.87.246.48:8000/page_preview/editorial.avif'})
+    return images
         
 
 def upload_image(request: UploadImage):
