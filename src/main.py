@@ -14,7 +14,7 @@ app.include_router(collections.router)
 app.include_router(search.router)
 app.include_router(ai.router)
 
-app.mount('/page_preview', StaticFiles(directory='src/page_preview'), name='page_preview')
+app.mount('/page_preview', StaticFiles(directory='/src/page_preview'), name='page_preview')
 
 app.add_middleware(
     CORSMiddleware,
