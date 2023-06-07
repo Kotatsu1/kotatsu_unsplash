@@ -47,5 +47,5 @@ def get_category_images_with_favorite(request: FetchCategoryFavorites):
     resources = added_preview['resources']
     favorite_images = favorite.user_favorive_images(request.token)
 
-    resources = list(map(lambda image: mark_favorite(image, favorite_images), resources))
-    return {**added_preview, 'resources': resources}
+    updated_resources = list(map(lambda image: mark_favorite(image, favorite_images), resources))
+    return {**added_preview, 'resources': updated_resources}
