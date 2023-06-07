@@ -5,3 +5,6 @@ print(datetime.datetime.now())
 
 
 print()
+
+
+x = 'test'
