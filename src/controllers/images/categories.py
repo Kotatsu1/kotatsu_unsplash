@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from controllers.images import favorite
 from schemas.image_schemas import FetchFromCategory, FetchCategoryFavorites
 from utils.favorites import mark_favorite
-from utils.page_preview import add_page_preview
+from utils.page_preview import add_page_preview, text_for_page_preview
 
 load_dotenv()
 
@@ -25,7 +25,10 @@ def get_images_with_params(type: str, cursor: str) -> dict:
 def get_images_from_category(request: FetchFromCategory):
     try:
         images = get_images_with_params(request.folder, request.next_cursor)
-        return add_page_preview(images, request.folder)
+        added_preview = add_page_preview(images, request.folder)
+        added_text_for_page_preview = text_for_page_preview(added_preview, request.folder)
+
+        return added_text_for_page_preview
     except Exception:
         raise HTTPException(status_code=404, detail='Cound not get images from category')
 
@@ -33,7 +36,8 @@ def get_images_from_category(request: FetchFromCategory):
 def get_category_images_with_favorite(request: FetchCategoryFavorites):
     all_images = get_images_with_params(request.category, request.next_cursor)
     added_preview = add_page_preview(all_images, request.category)
-    resources = added_preview['resources']
+    added_text_for_page_preview = text_for_page_preview(added_preview, request.category)
+    resources = added_text_for_page_preview['resources']
     favorite_images = favorite.user_favorive_images(request.token)
 
     updated_resources = list(map(lambda image: mark_favorite(image, favorite_images), resources))

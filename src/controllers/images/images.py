@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 from controllers.images import favorite
 from schemas.image_schemas import FetchAllFavorites, FetchImages, UploadImage
 from utils.favorites import mark_favorite
-from utils.page_preview import add_page_preview
+from utils.page_preview import add_page_preview, text_for_page_preview
 
 
 load_dotenv()
@@ -15,9 +15,10 @@ config = cloudinary.config(secure=True)
 
 
 def get_images_from_all_categories(request: FetchImages) -> dict:
-    images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
-    images.update({'page_preview': 'http://45.87.246.48:8000/page_preview/editorial.avif'})
-    return images
+    all_images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
+    added_preview = add_page_preview(all_images, 'editorial')
+    added_text_for_page_preview = text_for_page_preview(added_preview, 'editorial')
+    return added_text_for_page_preview
         
 
 def upload_image(request: UploadImage):
@@ -31,7 +32,8 @@ def upload_image(request: UploadImage):
 def get_all_images_with_favorite(request: FetchAllFavorites):
     all_images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
     added_preview = add_page_preview(all_images, 'editorial')
-    resources = added_preview['resources']
+    added_text_for_page_preview = text_for_page_preview(added_preview, 'editorial')
+    resources = added_text_for_page_preview['resources']
     favorite_images = favorite.user_favorive_images(request.token)
 
 
