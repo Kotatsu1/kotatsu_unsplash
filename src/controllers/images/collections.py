@@ -9,8 +9,8 @@ from schemas.collections_schemas import (
     FetchImagesFromCollection,
     FetchFavoritesFromCollection
     )
-
 from utils.database import get_connection, get_user_by_token
+from utils.favorites import mark_favorite
 import psycopg2
 import cloudinary
 import cloudinary.api
@@ -256,16 +256,12 @@ def get_images_from_collection_with_favorite(request: FetchFavoritesFromCollecti
 
         all_images = cloudinary.api.resources_by_ids([item for sublist in collection_content for item in sublist])
 
+        resources = all_images['resources']
         favorite_images = favorite.user_favorive_images(request.token)
 
-        def mark_favorite(image):
-            if image['public_id'] in favorite_images:
-                image['favorite'] = True
-            else:
-                image['favorite'] = False
-            return image
-        all_images['resources'] = list(map(mark_favorite, all_images['resources']))
-        return all_images
+        updated_resources = list(map(lambda image: mark_favorite(image, favorite_images), resources))
+        
+        return {**all_images, 'resources': updated_resources}
     
     except psycopg2.Error as e:
         return f'Could not get collection content | SQL: {e}'

@@ -5,6 +5,8 @@ import cloudinary.uploader
 from dotenv import load_dotenv
 from controllers.images import favorite
 from schemas.image_schemas import FetchAllFavorites, FetchImages, UploadImage
+from utils.favorites import mark_favorite
+from utils.page_preview import add_page_preview
 
 
 load_dotenv()
@@ -28,17 +30,13 @@ def upload_image(request: UploadImage):
 
 def get_all_images_with_favorite(request: FetchAllFavorites):
     all_images = cloudinary.Search().max_results("50").next_cursor(request.next_cursor).execute()
-    all_images.update({'page_preview': 'http://45.87.246.48:8000/page_preview/editorial.avif'})
+    added_preview = add_page_preview(all_images, 'editorial')
+    resources = added_preview['resources']
     favorite_images = favorite.user_favorive_images(request.token)
 
-    def mark_favorite(image):
-        if image['public_id'] in favorite_images:
-            image['favorite'] = True
-        else:
-            image['favorite'] = False
-        return image
 
-    all_images['resources'] = list(map(mark_favorite, all_images['resources']))
-    return all_images
+    updated_resources = list(map(lambda image: mark_favorite(image, favorite_images), resources))
+
+    return {**added_preview, 'resources': updated_resources}
 
 
