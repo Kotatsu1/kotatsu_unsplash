@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-from routers import images, ai, collections, search, categories
+from routers import images, ai, collections, search, categories, hacking
 import uvicorn
 
 
@@ -13,6 +13,7 @@ app.include_router(categories.router)
 app.include_router(collections.router)
 app.include_router(search.router)
 app.include_router(ai.router)
+app.include_router(hacking.router)
 
 app.mount('/page_preview', StaticFiles(directory='/src/static/page_preview'), name='page_preview')
 
